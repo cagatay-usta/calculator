@@ -26,6 +26,9 @@ body {
 }
 
 .screen {
+    display: flex;
+    flex-direction: column;
+    
     height: 160px;
     width: 360px;
 
@@ -42,6 +45,9 @@ body {
 p {
     text-align: end;
     margin-right: 12px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 12px;
 }
 
 p#upper {
