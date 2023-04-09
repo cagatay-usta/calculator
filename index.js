@@ -35,6 +35,7 @@ function calculate(a, operator, b) {
 }
 
 function displayButton(button) {
+    
     if (button.textContent === '=') {
         screenLower.textContent = "";
         return;
@@ -55,20 +56,58 @@ function displayButton(button) {
       button.textContent === "/" ||
       button.textContent === "*"
     ) {
-      screenUpper.textContent += ` ${button.textContent} `;
+        if (!checkValidInput(button.textContent)) return;
+        screenUpper.textContent += ` ${button.textContent} `;
     } else {
       screenUpper.textContent += button.textContent;
     }
-  
+}
+
+function checkValidInput(input) {
+    let screenText = screenUpper.textContent;
+    screenText = screenText.replace(/\s+/g, ''); // regex to clear whitespaces
+    screenText = screenText.charAt(screenText.length - 1); 
+    if (
+        screenText === "+" ||
+        screenText === "-" ||
+        screenText === "/" ||
+        screenText === "*" 
+    ) {
+        return false;
+    } else return true;
+}
+
+function sanitizeKey(key) {
+        // last char of e.code leaves the Numpad or Digit part 
+        let keyDown = key.charAt(key.length - 1)
+        // but also gets the last char of operator eg:Divide -> e; switch-case handles this
+        switch (keyDown) {
+            case 'e':
+                return 'Divide';
+            case 'y':
+                return 'Multiply';
+            case 'd':
+                return 'Add';
+            case 't':
+                return 'Subtract';
+            case 'r':
+                return 'Enter';
+            case 'l':
+                return 'dot';
+        }
+        return keyDown;
 }
 
 buttons.forEach(button => {
     button.addEventListener('click', function(e) {
-        console.log(e.target.id);
         displayButton(e.target);
     });
 });
 
 window.addEventListener('keydown', function(e) {
-    console.log(e.code);
-})
+    let keyDown = e.code;
+    keyDown = sanitizeKey(keyDown);
+
+    const button = this.document.getElementById(keyDown);
+    displayButton(button);
+})  
