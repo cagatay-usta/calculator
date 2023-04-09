@@ -9,7 +9,7 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 80px;
-    background-color: #FBCAEF;
+    background-color: #EEC6CA;
 }
 
 .container {
@@ -17,8 +17,8 @@ body {
     flex-direction: column;
     align-items: center;
 
-    height: 720px;
-    width: 480px;
+    height: 730px;
+    width: 460px;
 
     background-color: #439775;
 
@@ -33,6 +33,7 @@ body {
     width: 360px;
 
     margin: 26px;
+    margin-top: 36px;
 
     border-width: 4px;
     border-color: white;
@@ -61,26 +62,35 @@ p#lower {
 .container-mainbtn {
     display: flex;
     justify-content: center;
-    gap: 4px;
+    gap: 2px;
 }
 
 button.main,
-.btn {
-    height: 88px;
-    border-radius: 6px;
-    border-width: 3px;
-    border-style: groove;
-    border-color: #61D095;
+.btn,
+.btn.operator {
+    height: 90px;
+    border-style: none;
+    margin: 1px;
 
     background-color: #61D095;
 
     cursor: pointer;
 
+    transition: 0.4s;
+
 }
 
 button.main:hover,
 .btn:hover {
-    background-color: #439775;
+    background-color: coral; 
+}
+
+.btn.operator:hover {
+    background-color: rgb(1, 143, 143);
+}
+
+#equal:hover {
+    background-color: rgb(53, 184, 53);
 }
 
 button.main.clicked,
@@ -99,9 +109,9 @@ button.main.clicked,
 }
 
 .btn {
-    width: 88px;
+    width: 90px;
 }
 
 button.main {
-    width: 176px;
+    width: 184px;
 }

@@ -1,11 +1,10 @@
 const buttons = document.querySelectorAll(".btn");
 const numbers = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
-const clearButton = document.querySelector("#clear");
-const deleteButton = document.querySelector("#delete");
 
 const screenUpper = document.querySelector("#upper");
 const screenLower = document.querySelector("#lower");
+
 function add(a, b) {
   return a + b;
 }
@@ -65,6 +64,11 @@ function displayButton(button) {
 
 buttons.forEach(button => {
     button.addEventListener('click', function(e) {
+        console.log(e.target.id);
         displayButton(e.target);
     });
 });
+
+window.addEventListener('keydown', function(e) {
+    console.log(e.code);
+})
