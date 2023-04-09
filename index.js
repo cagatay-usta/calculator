@@ -5,8 +5,10 @@ const operators = document.querySelectorAll(".operator");
 const screenUpper = document.querySelector("#upper");
 const screenLower = document.querySelector("#lower");
 
+const enterButton = document.querySelector('#enter');
+
 function add(a, b) {
-  return a + b;
+  return +a + +b;
 }
 
 function subtract(a, b) {
@@ -18,26 +20,37 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  return a / b;
+    if (a == 0 && b == 0) return 'LEBLEBI';
+    return a / b;
 }
 
 function calculate(a, operator, b) {
   switch (operator) {
-    case "add":
+    case "+":
       return add(a, b);
-    case "subtract":
+    case "-":
       return subtract(a, b);
-    case "multiply":
+    case "*":
       return multiply(a, b);
-    case "divide":
+    case "/":
       return divide(a, b);
   }
+}
+
+function getOperands(text) {
+    let operands = text.textContent.split(' ');
+    
+    // makes sure that split wont result in ['2', '+', ''] 
+    if (operands[operands.length - 1] === '') {
+        operands.pop();
+    }
+    return operands;
 }
 
 function displayButton(button) {
     
     if (button.textContent === '=') {
-        screenLower.textContent = "";
+        checkResult();
         return;
     }
     if (button.textContent === "CLEAR") {
@@ -56,11 +69,38 @@ function displayButton(button) {
       button.textContent === "/" ||
       button.textContent === "*"
     ) {
-        if (!checkValidInput(button.textContent)) return;
+        // checks if operator used twice to prevent "2++2"
+        if (checkValidInput(button.textContent) == false) {
+            checkResult();
+            return;
+        }
+
+        // if there are two numbers and an operator already, displays the results immediately, then displays the operator after it
+        const operandNumber = getOperands(screenUpper);
+        if (operandNumber.length === 3) {
+            checkResult();
+        }
+
         screenUpper.textContent += ` ${button.textContent} `;
     } else {
       screenUpper.textContent += button.textContent;
     }
+}
+
+function checkResult() {
+    let operands = getOperands(screenUpper);
+    // check if there are two numbers and an operator, return if not    
+    if (operands.length < 3) return;
+
+    let result = calculate(operands[0], operands[1], operands[2]);
+    if (!isFinite(result)) {
+        screenUpper.textContent = "LEBLEBI";
+        screenLower.textContent = "LEBLEBI";
+    } else {
+        result = Math.round(result * 100) / 100 // rounds down to 2 decimal points
+        screenUpper.textContent = result;
+        screenLower.textContent = result;
+    };
 }
 
 function checkValidInput(input) {
@@ -101,13 +141,14 @@ function sanitizeKey(key) {
 buttons.forEach(button => {
     button.addEventListener('click', function(e) {
         displayButton(e.target);
+
     });
 });
 
 window.addEventListener('keydown', function(e) {
+    e.preventDefault();
     let keyDown = e.code;
     keyDown = sanitizeKey(keyDown);
-
     const button = this.document.getElementById(keyDown);
     displayButton(button);
 })  

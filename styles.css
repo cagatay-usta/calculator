@@ -7,6 +7,8 @@
 
 body {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     margin-top: 80px;
     background-color: #EEC6CA;
@@ -18,7 +20,7 @@ body {
     align-items: center;
 
     height: 730px;
-    width: 460px;
+    width: 450px;
 
     background-color: #439775;
 
@@ -114,4 +116,13 @@ button.main.clicked,
 
 button.main {
     width: 184px;
+}
+
+.footer {
+    margin: 12px;
+}
+
+a {
+    list-style: none;
+    text-decoration: none;
 }
