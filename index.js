@@ -1,11 +1,13 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-use-before-define */
+/* eslint-disable consistent-return */
+/* eslint-disable default-case */
+/* eslint-disable no-undef */
 const buttons = document.querySelectorAll(".btn");
-const numbers = document.querySelectorAll(".number");
-const operators = document.querySelectorAll(".operator");
 
 const screenUpper = document.querySelector("#upper");
 const screenLower = document.querySelector("#lower");
 
-const enterButton = document.querySelector('#enter');
 
 function add(a, b) {
   return +a + +b;
@@ -20,7 +22,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    if (a == 0 && b == 0) return 'LEBLEBI';
+    if (a === 0 && b === 0) return 'LEBLEBI';
     return a / b;
 }
 
@@ -38,7 +40,7 @@ function calculate(a, operator, b) {
 }
 
 function getOperands(text) {
-    let operands = text.textContent.split(' ');
+    const operands = text.textContent.split(' ');
     
     // makes sure that split wont result in ['2', '+', ''] 
     if (operands[operands.length - 1] === '') {
@@ -59,7 +61,7 @@ function displayButton(button) {
         return;
     }
     if (button.textContent === "DELETE") {
-        let text = screenUpper.innerText.slice(0,-1);
+        const text = screenUpper.innerText.slice(0,-1);
         screenUpper.textContent = `${text}`;
         return;
     }
@@ -70,7 +72,7 @@ function displayButton(button) {
       button.textContent === "*"
     ) {
         // checks if operator used twice to prevent "2++2"
-        if (checkValidInput(button.textContent) == false) {
+        if (checkValidInput(button.textContent) === false) {
             checkResult();
             return;
         }
@@ -88,7 +90,7 @@ function displayButton(button) {
 }
 
 function checkResult() {
-    let operands = getOperands(screenUpper);
+    const operands = getOperands(screenUpper);
     // check if there are two numbers and an operator, return if not    
     if (operands.length < 3) return;
 
@@ -100,10 +102,10 @@ function checkResult() {
         result = Math.round(result * 100) / 100 // rounds down to 2 decimal points
         screenUpper.textContent = result;
         screenLower.textContent = result;
-    };
+    }
 }
 
-function checkValidInput(input) {
+function checkValidInput() {
     let screenText = screenUpper.textContent;
     screenText = screenText.replace(/\s+/g, ''); // regex to clear whitespaces
     screenText = screenText.charAt(screenText.length - 1); 
@@ -114,12 +116,12 @@ function checkValidInput(input) {
         screenText === "*" 
     ) {
         return false;
-    } else return true;
+    } return true;
 }
 
 function sanitizeKey(key) {
         // last char of e.code leaves the Numpad or Digit part 
-        let keyDown = key.charAt(key.length - 1)
+        const keyDown = key.charAt(key.length - 1)
         // but also gets the last char of operator eg:Divide -> e; switch-case handles this
         switch (keyDown) {
             case 'e':
@@ -139,13 +141,13 @@ function sanitizeKey(key) {
 }
 
 buttons.forEach(button => {
-    button.addEventListener('click', function(e) {
+    button.addEventListener('click', (e) => {
         displayButton(e.target);
 
     });
 });
 
-window.addEventListener('keydown', function(e) {
+window.addEventListener('keydown', (e) => {
     e.preventDefault();
     let keyDown = e.code;
     keyDown = sanitizeKey(keyDown);
